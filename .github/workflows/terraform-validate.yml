@@ -1,0 +1,22 @@
+name: "PR TF Validate"
+run-name: Pull Request TF Validate
+
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+        - 'prd/**'
+        - '.github/workflows/**'
+
+jobs:
+    Git-Config:
+        name: git-config
+        runs-on: ubuntu-latest
+        steps:
+          - run: git config --global url."https://oauth2:${{ secrets.PAT }}@github.com"insteadOf https://github.com
+
+    TF-Validate:
+        name: tf-validate
+        secrets: inherit
+        uses: kicka5h/github-reusable-workflows/.github/workflows/terraformm/tfvalidate.yml@main
